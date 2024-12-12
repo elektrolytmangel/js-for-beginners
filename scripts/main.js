@@ -17,11 +17,17 @@ const quote2 = {
 const myDefaultQuotes = [quote, quote2];
 
 async function showRandomQuote() {
-  const response = await fetch(
-    "https://quotesservice.whitebay-9c60bf5f.westeurope.azurecontainerapps.io/2"
-  );
+  let myRandomQuotes = [];
+  try {
+    const response = await fetch(
+      "https://quotesservice.whitebay-9c60bf5f.westeurope.azurecontainerapps.io/2"
+    );
 
-  const myRandomQuotes = await response.json();
+    myRandomQuotes = await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+
   const randomQuotesContainer = document.getElementById(
     "random-quotes-container"
   );
@@ -32,7 +38,7 @@ async function showRandomQuote() {
 
   if (myRandomQuotes.length === 0) {
     const noQuotesMessage = document.createElement("p");
-    noQuotesMessage.textContent = "No quotes available";
+    noQuotesMessage.textContent = "No quotes from server available";
     noQuotesMessage.className = "alert alert-danger";
     randomQuotesContainer.appendChild(noQuotesMessage);
   }
